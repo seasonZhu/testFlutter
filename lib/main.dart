@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
 //import 'package:flutter_app/home/homePage.dart';
 
+
 void main() => runApp(new MyApp());
 
 class MyApp extends StatelessWidget {
@@ -10,6 +11,9 @@ class MyApp extends StatelessWidget {
     final wordPair = WordPair.random();
     return new MaterialApp(
       title: 'Welcome to Flutter',
+      theme: new ThemeData(
+        primaryColor: Colors.white,
+      ),
       home: new Scaffold(
         body: new Center(
 
@@ -112,7 +116,15 @@ class RandomWordsState extends State<RandomWords> {
               .divideTiles(
             context: context,
             tiles: tiles,
-          ).toList();
+          )
+              .toList();
+
+          return new Scaffold(
+            appBar: new AppBar(
+              title: new Text('Saved Suggestions'),
+            ),
+            body: new ListView(children: divided),
+          );
         },
       ),
     );
