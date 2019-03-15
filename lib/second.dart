@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
-//import 'package:english_words/english_words.dart';
+import 'dart:async';
+import 'package:flutter/services.dart';
 
 class SecondViewController extends StatelessWidget {
+
+  static const platform = const MethodChannel('samples.flutter.io/pushToASwiftViewController');
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -11,18 +15,20 @@ class SecondViewController extends StatelessWidget {
               new IconButton(icon: new Icon(Icons.list), onPressed: swiftPush),
                 ],
             ),
-            //body: new ListView(children: divided),
-            // 这个地方没有用ListView 使用的是我自己写的second.part中的文件
             body: Second(),
           );
   }
 
-  void swiftPush() {
-    print("这里我想尝试原生的push页面");
+  Future<void> swiftPush() async {
+    print("我想在这个界面搞事情");
+    try {
+      final int result = await platform.invokeMethod('swiftPush');
+    } on PlatformException catch (e) {
+    }
   }
 }
 
-class Second extends StatelessWidget {
+class Second extends StatefulWidget {
   @override
   Widget build(BuildContext context) {
     Widget titleSection = new Container(
@@ -60,5 +66,48 @@ class Second extends StatelessWidget {
       ),
     );
   return titleSection;
+  }
+
+  @override
+  createState() => _MyHomePageState();
+}
+
+
+class _MyHomePageState extends State<Second> {
+  static const platform = const MethodChannel('samples.flutter.io/battery');
+
+  // Get battery level.
+  String _batteryLevel = 'Unknown battery level.';
+
+  Future<void> _getBatteryLevel() async {
+    String batteryLevel;
+    try {
+      final int result = await platform.invokeMethod('getBatteryLevel');
+      batteryLevel = 'Battery level at $result % .';
+    } on PlatformException catch (e) {
+      batteryLevel = "Failed to get battery level: '${e.message}'.";
+    }
+
+    setState(() {
+      _batteryLevel = batteryLevel;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            RaisedButton(
+              child: Text('Get Battery Level'),
+              onPressed: _getBatteryLevel,
+            ),
+            Text(_batteryLevel),
+          ],
+        ),
+      ),
+    );
   }
 }

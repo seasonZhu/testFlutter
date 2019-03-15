@@ -127,7 +127,7 @@ class RandomWordsState extends State<RandomWords> {
             body: new ListView(children: divided),
           );
           */
-          return SecondViewController()
+          return SecondViewController();
         },
       ),
     );
