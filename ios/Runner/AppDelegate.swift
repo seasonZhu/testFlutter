@@ -10,6 +10,8 @@ import Foundation
 
 @UIApplicationMain
 class AppDelegate: FlutterAppDelegate {
+    var flutterEngine : FlutterEngine?
+    
     override func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         let controller = window?.rootViewController as! FlutterViewController
         
@@ -39,6 +41,10 @@ class AppDelegate: FlutterAppDelegate {
             }
             self?.pushToASwiftViewController()
         }
+        
+        //flutterEngine = FlutterEngine(name: "io.flutter", project: nil)
+        //flutterEngine?.run(withEntrypoint: "third")
+        //GeneratedPluginRegistrant.register(with: flutterEngine)
         
         GeneratedPluginRegistrant.register(with: self)
         return true

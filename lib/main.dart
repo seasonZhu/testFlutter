@@ -2,9 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
 //import 'package:flutter_app/home/homePage.dart';
 import 'second.dart';
+import 'third.dart';
+import 'dart:ui' as ui;
 
 
-void main() => runApp(new MyApp());
+void main() {
+  runApp(_widgetForRoute(ui.window.defaultRouteName));
+} 
+
+// void third() {
+//   print("在这里来了");
+//   runApp(ThirdViewController());
+// }
+
+Widget _widgetForRoute(String route) {
+  print(route);
+  switch (route) {
+    case 'third':
+      return ThirdViewController();
+    default:
+      return MyApp();
+  }
+}
 
 class MyApp extends StatelessWidget {
   @override
