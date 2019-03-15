@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
 //import 'package:flutter_app/home/homePage.dart';
+import 'second.dart';
 
 
 void main() => runApp(new MyApp());
@@ -118,13 +119,15 @@ class RandomWordsState extends State<RandomWords> {
             tiles: tiles,
           )
               .toList();
-
+          /*
           return new Scaffold(
             appBar: new AppBar(
               title: new Text('Saved Suggestions'),
             ),
             body: new ListView(children: divided),
           );
+          */
+          return SecondViewController()
         },
       ),
     );
