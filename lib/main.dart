@@ -17,6 +17,8 @@ void main() {
 Widget _widgetForRoute(String route) {
   print(route);
   switch (route) {
+    case '/':
+      return MyApp();
     case 'third':
       return ThirdViewController();
     default:
@@ -57,7 +59,7 @@ class RandomWordsState extends State<RandomWords> {
     return new Text(wordPair.asPascalCase);*/
     return new Scaffold (
       appBar: new AppBar(
-        title: new Text('Startup Name Generator'),
+        title: new Text('第一个界面'),
         actions: <Widget>[
           new IconButton(icon: new Icon(Icons.list), onPressed: _pushSaved),
         ],

@@ -22,6 +22,22 @@ class AppDelegate: FlutterAppDelegate {
         navi.navigationBar.isHidden = true
         window.rootViewController = navi
         
+        //  添加一个FPS的Label
+        setupFPSLabel()
+        
+        //  添加对于Flutter原生界面的方法监听
+        addOberverFromFlutterMethod(controller: controller)
+        
+        //  注册
+        GeneratedPluginRegistrant.register(with: self)
+        
+        return true
+    }
+}
+
+// MARK: - 添加对于Flutter原生界面的方法监听
+extension AppDelegate {
+    private func addOberverFromFlutterMethod(controller: FlutterViewController) {
         //  电池信息
         let batteryChannel = FlutterMethodChannel(name: "samples.flutter.io/battery", binaryMessenger: controller)
         batteryChannel.setMethodCallHandler {
@@ -41,14 +57,12 @@ class AppDelegate: FlutterAppDelegate {
                 result(FlutterMethodNotImplemented)
                 return
             }
-            self?.pushToASwiftViewController()
+            self?.pushToASwiftViewController(result: result)
         }
-        
-        GeneratedPluginRegistrant.register(with: self)
-        return true
     }
 }
 
+// MARK: - Flutter界面方法的具体实现
 extension AppDelegate {
     private func receiveBatteryLevel(result: FlutterResult) {
         let device = UIDevice.current
@@ -62,12 +76,21 @@ extension AppDelegate {
         }
     }
     
-    private func pushToASwiftViewController() {
+    private func pushToASwiftViewController(result: FlutterResult) {
         print("在原生已经接受到了")
         let controller = window?.rootViewController as! UINavigationController
-        //let navi = UINavigationController(rootViewController: controller)
-        //navi.pushViewController(ViewController(), animated: true)
         controller.pushViewController(ViewController(), animated: true)
-        //controller.present(ViewController(), animated: true, completion: nil)
+    }
+}
+
+extension AppDelegate {
+    private func setupFPSLabel() {
+        #if DEBUG
+        DispatchQueue.main.async {
+            let label = FPSLabel(frame: CGRect(x: Int((self.window!.bounds.width) - 55 - 8), y: Int(kNavigationBarHeight), width: 55, height: 20))
+            label.autoresizingMask = [.flexibleLeftMargin, .flexibleBottomMargin]
+            self.window!.addSubview(label)
+        }
+        #endif
     }
 }
