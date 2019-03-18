@@ -7,7 +7,7 @@ import 'dart:ui' as ui;
 
 void main() {
   runApp(_widgetForRoute(ui.window.defaultRouteName));
-} 
+}
 
 // void third() {
 //   print("在这里来了");
@@ -17,6 +17,8 @@ void main() {
 Widget _widgetForRoute(String route) {
   print(route);
   switch (route) {
+    case '/':
+      return MyApp();
     case 'third':
       return ThirdViewController();
     default:
@@ -35,17 +37,14 @@ class MyApp extends StatelessWidget {
       ),
       home: new Scaffold(
         body: new Center(
-
           child: new RandomWords(),
         ),
       ),
     );
   }
-
 }
 
 class RandomWordsState extends State<RandomWords> {
-
   final _suggestions = <WordPair>[];
 
   final _saved = new Set<WordPair>();
@@ -55,15 +54,14 @@ class RandomWordsState extends State<RandomWords> {
   Widget build(BuildContext context) {
     /*final wordPair = new WordPair.random();
     return new Text(wordPair.asPascalCase);*/
-    return new Scaffold (
+    return new Scaffold(
       appBar: new AppBar(
-        title: new Text('Startup Name Generator'),
+        title: new Text('第一个界面'),
         actions: <Widget>[
           new IconButton(icon: new Icon(Icons.list), onPressed: _pushSaved),
         ],
       ),
       body: _buildSuggestions(),
-
     );
   }
 
@@ -87,12 +85,10 @@ class RandomWordsState extends State<RandomWords> {
             _suggestions.addAll(generateWordPairs().take(10));
           }
           return _buildRow(_suggestions[index]);
-        }
-    );
+        });
   }
 
   Widget _buildRow(WordPair pair) {
-
     final alreadySaved = _saved.contains(pair);
     return new ListTile(
       title: new Text(
@@ -113,7 +109,6 @@ class RandomWordsState extends State<RandomWords> {
         });
       },
     );
-
   }
 
   void _pushSaved() {
@@ -121,7 +116,7 @@ class RandomWordsState extends State<RandomWords> {
       new MaterialPageRoute(
         builder: (context) {
           final tiles = _saved.map(
-                (pair) {
+            (pair) {
               return new ListTile(
                 title: new Text(
                   pair.asPascalCase,
@@ -130,12 +125,10 @@ class RandomWordsState extends State<RandomWords> {
               );
             },
           );
-          final divided = ListTile
-              .divideTiles(
+          final divided = ListTile.divideTiles(
             context: context,
             tiles: tiles,
-          )
-              .toList();
+          ).toList();
           /*
           return new Scaffold(
             appBar: new AppBar(

@@ -6,9 +6,9 @@ class ThirdViewController extends StatefulWidget {
 }
 
 class Third extends State<ThirdViewController> {
-
   // 注册一个通知
-  static const EventChannel eventChannel = const EventChannel('samples.flutter.io/flutterPush');
+  static const EventChannel eventChannel =
+      const EventChannel('samples.flutter.io/flutterPush');
 
   // 渲染前的操作，类似viewDidLoad
   @override
@@ -16,7 +16,9 @@ class Third extends State<ThirdViewController> {
     super.initState();
 
     // 监听事件，同时发送参数12345
-    eventChannel.receiveBroadcastStream(12345).listen(onEvent, onError: onError);
+    eventChannel
+        .receiveBroadcastStream(12345)
+        .listen(onEvent, onError: onError);
   }
 
   String naviTitle = 'title';
@@ -24,14 +26,12 @@ class Third extends State<ThirdViewController> {
   // 回调事件
   void onEvent(Object event) {
     setState(() {
-      naviTitle =  event.toString();
+      naviTitle = event.toString();
     });
   }
 
   // 错误返回
-  void onError(Object error) {
-
-  }
+  void onError(Object error) {}
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +40,9 @@ class Third extends State<ThirdViewController> {
         primaryColor: Colors.white,
       ),
       home: new Scaffold(
-        appBar: new AppBar(title: Text("第三个界面"),),
+        appBar: new AppBar(
+          title: Text("第三个界面"),
+        ),
         body: new Center(
           child: new Text(naviTitle),
         ),
