@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:dio/dio.dart';
 
 class ThirdViewController extends StatefulWidget {
   Third createState() => Third();
@@ -27,6 +28,7 @@ class Third extends State<ThirdViewController> {
   void onEvent(Object event) {
     setState(() {
       naviTitle = event.toString();
+      httpRequest();
     });
   }
 
@@ -49,4 +51,15 @@ class Third extends State<ThirdViewController> {
       ),
     );
   }
+
+  // 尝试网络请求
+  void httpRequest() async {
+  try {
+    Response response = await Dio().post("http://sun.topray-media.cn/tz_inf/api/topics");
+    print(response);
+  } catch (error) {
+    print(error);
+  }
+}
+
 }
