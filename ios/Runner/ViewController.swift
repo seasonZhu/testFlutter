@@ -17,9 +17,10 @@ class ViewController: UIViewController {
         
         let button = UIButton(type: .custom)
         button.addTarget(self, action: #selector(handleButtonAction), for: .touchUpInside)
-        button.setTitle("Press me", for: .normal)
-        button.frame = CGRect(x: 80.0, y: 210.0, width: 160.0, height: 40.0)
+        button.setTitle("Press to FlutterView", for: .normal)
+        button.frame = CGRect(x: 80.0, y: 210.0, width: 240.0, height: 40.0)
         button.backgroundColor = UIColor.blue
+        button.center = view.center
         view.addSubview(button)
     }
     
@@ -37,11 +38,31 @@ class ViewController: UIViewController {
     
     @objc
     func handleButtonAction() {
-        //let flutterEngine = (UIApplication.shared.delegate as? AppDelegate)?.flutterEngine
-        //flutterEngine?.run(withEntrypoint: "third")
-        //let flutterViewController = FlutterViewController(engine: flutterEngine, nibName: nil, bundle: nil)!
-        //flutterViewController.setInitialRoute("third")
-        //navigationController?.pushViewController(flutterViewController, animated: true)
+        
+        let toPushFlutterController = FlutterViewController()
+        toPushFlutterController.title = "这是从原生界面push过来的Flutter控制器"
+        toPushFlutterController.setInitialRoute("third")
+        
+        let channelName = "samples.flutter.io/flutterPush"
+        let evenChannal = FlutterEventChannel(name: channelName, binaryMessenger: toPushFlutterController)
+        evenChannal.setStreamHandler(self)
+        
+        navigationController?.pushViewController(toPushFlutterController, animated: true)
     }
 
+}
+
+extension ViewController: FlutterStreamHandler {
+    func onListen(withArguments arguments: Any?, eventSink events: @escaping FlutterEventSink) -> FlutterError? {
+        events("这段文字是从原生界面顺传过来的")
+        print(arguments)
+        return nil
+    }
+    
+    func onCancel(withArguments arguments: Any?) -> FlutterError? {
+        print(arguments)
+        return nil
+    }
+    
+    
 }

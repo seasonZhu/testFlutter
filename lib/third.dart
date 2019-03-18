@@ -1,57 +1,50 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
 import 'package:flutter/services.dart';
 
-class ThirdViewController extends StatelessWidget {
-
-  @override
-  Widget build(BuildContext context) {
-    return new Scaffold(
-            appBar: new AppBar(
-              title: new Text("从Swift跳转到Flutter页面"),
-            ),
-            body: Third(),
-          );
-  }
+class ThirdViewController extends StatefulWidget {
+  Third createState() => Third();
 }
 
-class Third extends StatelessWidget {
+class Third extends State<ThirdViewController> {
+
+  // 注册一个通知
+  static const EventChannel eventChannel = const EventChannel('samples.flutter.io/flutterPush');
+
+  // 渲染前的操作，类似viewDidLoad
+  @override
+  void initState() {
+    super.initState();
+
+    // 监听事件，同时发送参数12345
+    eventChannel.receiveBroadcastStream(12345).listen(onEvent, onError: onError);
+  }
+
+  String naviTitle = 'title';
+
+  // 回调事件
+  void onEvent(Object event) {
+    setState(() {
+      naviTitle =  event.toString();
+    });
+  }
+
+  // 错误返回
+  void onError(Object error) {
+
+  }
+
   @override
   Widget build(BuildContext context) {
-    Widget titleSection = new Container(
-      padding: const EdgeInsets.all(32.0),
-      child: new Row(
-        children: [
-          new Expanded(
-            child: new Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                new Container(
-                  padding: const EdgeInsets.only(bottom: 8.0),
-                  child: new Text(
-                    '尝试从Swift跳转过来',
-                    style: new TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                new Text(
-                  '值传递和值回调还不会',
-                  style: new TextStyle(
-                    color: Colors.grey[500],
-                  ),
-                ),
-                new Icon(Icons.screen_share,
-                    color: Colors.red[500],
-                ),
-          new Text('SwiftToFlutter'),
-              ],
-            ),
-          ),
-          
-        ],
+    return new MaterialApp(
+      theme: new ThemeData(
+        primaryColor: Colors.white,
+      ),
+      home: new Scaffold(
+        appBar: new AppBar(title: Text("第三个界面"),),
+        body: new Center(
+          child: new Text(naviTitle),
+        ),
       ),
     );
-  return titleSection;
   }
 }

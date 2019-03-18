@@ -5,7 +5,6 @@ import 'second.dart';
 import 'third.dart';
 import 'dart:ui' as ui;
 
-
 void main() {
   runApp(_widgetForRoute(ui.window.defaultRouteName));
 } 
@@ -42,7 +41,6 @@ class MyApp extends StatelessWidget {
       ),
     );
   }
-
 
 }
 
