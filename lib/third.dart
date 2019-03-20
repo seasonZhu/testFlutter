@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 
 class ThirdViewController extends StatefulWidget {
   Third createState() => Third();
@@ -37,16 +38,24 @@ class Third extends State<ThirdViewController> {
 
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
-      theme: new ThemeData(
+    return new CupertinoApp(
+      theme: new CupertinoThemeData(
         primaryColor: Colors.white,
       ),
-      home: new Scaffold(
-        appBar: new AppBar(
-          title: Text("第三个界面"),
+      home: new CupertinoPageScaffold(
+        navigationBar: new CupertinoNavigationBar(
+          middle: Text("仿iOS风格的第三个界面"),  
+          trailing: Icon(CupertinoIcons.add),//new CupertinoButton(child: Icon(CupertinoIcons.add),onPressed: rightAddAction),//右侧按钮
+          leading: Icon(CupertinoIcons.back),
         ),
-        body: new Center(
-          child: new Text(naviTitle),
+        child: new Center(
+          child: CupertinoButton(
+              child: Text(//按钮label
+                naviTitle
+              ),
+              color: Colors.blue,//按钮颜色
+              onPressed: buttonAction,
+            ),
         ),
       ),
     );
@@ -54,12 +63,12 @@ class Third extends State<ThirdViewController> {
 
   // 尝试网络请求
   void httpRequest() async {
-  try {
     Response response = await Dio().post("http://sun.topray-media.cn/tz_inf/api/topics");
     print(response);
-  } catch (error) {
-    print(error);
   }
-}
+
+  void buttonAction() {
+    print("按钮的点击事件");
+  }
 
 }

@@ -17,6 +17,7 @@ void main() {
 Widget _widgetForRoute(String route) {
   print(route);
   switch (route) {
+    // 默认进入的时候route为'/'
     case '/':
       return MyApp();
     case 'third':
