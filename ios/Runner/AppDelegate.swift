@@ -94,3 +94,19 @@ extension AppDelegate {
         #endif
     }
 }
+
+extension FlutterViewController: FlutterBinaryMessenger {
+    public func send(onChannel channel: String, message: Data?) {
+        
+    }
+    
+    public func send(onChannel channel: String, message: Data?, binaryReply callback: FlutterBinaryReply? = nil) {
+        
+    }
+    
+    public func setMessageHandlerOnChannel(_ channel: String, binaryMessageHandler handler: FlutterBinaryMessageHandler? = nil) {
+        
+    }
+    
+    
+}
